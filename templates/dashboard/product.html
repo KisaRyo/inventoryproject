@@ -1,0 +1,89 @@
+{% extends 'partials/base.html' %}
+{% block title %} Product Page  {% endblock %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% include 'partials/topnav.html' %}
+
+<div class="container">
+    <div class="row my-4">
+        <div class="col-md-4">
+            {% for message in messages %}
+            {% if message %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+            <div class="border bg-white p-3">
+                <h4>Add Products</h4>
+                <hr>
+                <form method="POST"> 
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input class="btn btn-success btn-block" type="submit" value="Add Product">
+
+                </form>
+            </div>
+        </div>
+        <div class="col-md-8">
+                <div class="card card-body">
+                    <form method="get"> 
+
+                        {{pfilter.form|crispy}}
+
+                        <button class="btn btn-success" type="submit"> Search </button></p>
+                    </form>
+                </div>
+            <table class="table bg-white">
+                <thead class="bg-info">
+                    <tr class="text-white">
+                        <th scope="col">Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td> {{ item.name }} {% if item.specifications %} ({{ item.specifications }}) {% endif %} </td>
+                        <td> {{ item.category }} </td>
+                        <td> {{ item.quantity }} </td>
+                        <td> {{ item.status }} </td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" href="{% url 'dashboard-product-update' item.id %}">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="{% url 'dashboard-product-delete' item.id %}">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="pagination">
+                <span class="step-links">
+                    {% if items.has_previous %}
+                        <a class="btn btn-primary" href="?{{ request.GET.urlencode }}&page=1">&laquo; First</a>
+                        <a class="btn btn-primary" href="?{{ request.GET.urlencode }}&page={{ items.previous_page_number }}">Previous</a>
+                    {% endif %}
+            
+                    <span class="current">  
+                        Page {{ items.number }} of {{ items.paginator.num_pages }}.
+                    </span>
+                    {% if items.has_next %}
+                        <a class="btn btn-primary" href="?{{ request.GET.urlencode }}&page={{ items.next_page_number }}">Next</a>
+                        <a class="btn btn-primary" href="?{{ request.GET.urlencode }}&page={{ items.paginator.num_pages }}">Last &raquo;</a>
+                    {% endif %}
+                    
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

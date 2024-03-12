@@ -1,0 +1,91 @@
+{% extends 'partials/base.html' %}
+{% block title %} Order Page  {% endblock %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% include 'partials/topnav.html' %}
+
+<div class="container">
+    <div class="row my-4">
+        <div class="col-md-4">
+            {% for message in messages %}
+            {% if message %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+            <div class="border bg-white p-3">
+                <h4>Schedule</h4>
+                <hr>
+                <form method="POST"> 
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input class="btn btn-success btn-block" type="submit" value="Schedule">
+
+                </form>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    Schedule Records
+                </div>
+                <div class="card-body">
+                    <table class="table bg-white">
+                        <thead class="bg-info text-white">
+                            <tr>
+                                <th scope="col">Staff</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Time</th>
+                                <th scope="col"> </th>
+    
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for orders in orders %}
+
+                            <tr>   
+                                <td>{{ orders.staff }}</td>
+                                <td>{{ orders.date }}</td>
+                                <td>{{ orders.time }}</td>
+                                <td>
+                                    <a class="btn btn-danger btn-sm" href="{% url 'dashboard-order-delete' orders.id %}">Delete</a>
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="pagination">
+                <span class="step-links">
+                    {% if orders.has_previous %}
+                        <a class="btn btn-primary" href="?{{ request.GET.urlencode }}&page=1">&laquo; First</a>
+                        <a class="btn btn-primary" href="?{{ request.GET.urlencode }}&page={{ orders.previous_page_number }}">Previous</a>
+                    {% endif %}
+            
+                    <span class="current">  
+                        Page {{ orders.number }} of {{ orders.paginator.num_pages }}.
+                    </span>
+                    {% if orders.has_next %}
+                        <a class="btn btn-primary" href="?{{ request.GET.urlencode }}&page={{ orders.next_page_number }}">Next</a>
+                        <a class="btn btn-primary" href="?{{ request.GET.urlencode }}&page={{ orders.paginator.num_pages }}">Last &raquo;</a>
+                    {% endif %}
+                    
+                </span>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    $("#id_products").select2();
+</script>
+
+{% endblock %}

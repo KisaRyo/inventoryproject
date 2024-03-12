@@ -1,0 +1,41 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg" style = "background-color:#911A16;">
+    <div class="container-fluid">
+        <a class = "navbar-brand" href="https://www.mmis.edu.ph"><img src = "{% static 'MMISBG.png' %}" width = "180" height="80"> </a>
+        <a class="navbar-brand text-white d-inline-block align-top" href="{% url 'dashboard-index' %}">MILS</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        {% if user.is_authenticated %}
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link text-white" href="{% url 'dashboard-index' %}">Dashboard <span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link text-white" href="{% url 'user-profile' %}"> {{user.username}} | <span
+                                class="sr-only">(current)</span></a> 
+                    </li>
+                    <form method="post" action="{% url 'user-logout' %}" class="form-inline my-2 my-lg-0">
+                        {% csrf_token %}
+                        <button class="btn btn-" type="submit" style="background-color:#911A16; color:#FFFFFF;" >Logout</button>
+                      </form>
+
+                </ul>
+                    {% else %}
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'user-register' %}">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'user-login' %}">Login</a>
+                    </li>                
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</nav>
