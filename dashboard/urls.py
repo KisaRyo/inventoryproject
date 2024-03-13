@@ -11,4 +11,6 @@ urlpatterns = [
     path('order/', views.order, name='dashboard-order'),
     path('order/delete/<int:pk>', views.order_delete, name='dashboard-order-delete'),
     
+    #REST
+    path('api/', views.apiOverview, name="api-overview"),
 ]

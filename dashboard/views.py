@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import  Product, Orders
 from .forms import ProductForm, OrderForm
@@ -12,6 +12,9 @@ from django.db import models
 from datetime import date, time
 from django.utils import timezone
 from user.views import PasswordsChangeView
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 
 # Create your views here.
@@ -73,7 +76,7 @@ def staff_detail(request, pk):
     }
     return render(request, 'dashboard/staff_detail.html', context)
 
-    
+
 @login_required
 def product(request):
     items = Product.objects.all().order_by('name')
@@ -135,7 +138,6 @@ def product_update(request, pk):
     return render(request, 'dashboard/product_update.html', context)
 
 
-
 @login_required
 def order(request):
 
@@ -170,7 +172,6 @@ def order(request):
     }
     return render(request, 'dashboard/order.html', context)
 
-
 @login_required
 def order_delete(request, pk):
     orders = Orders.objects.get(id=pk)
@@ -180,3 +181,13 @@ def order_delete(request, pk):
     return render(request, 'dashboard/order_delete.html')
 
 
+@api_view(['GET'])
+def apiOverview(request):
+    api_urls = {
+        'List':'/task-list/',
+        'Detail View':'/task-detail/<str:pk>/',
+        'Create':'/task-create/',
+        'Update':'/task-update/<str:pk>/',
+        'Delete':'/task-delete/<str:pk>/',
+    }
+    return Response(api_urls)
