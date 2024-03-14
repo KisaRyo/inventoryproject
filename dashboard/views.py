@@ -13,10 +13,6 @@ from datetime import date, time
 from django.utils import timezone
 from user.views import PasswordsChangeView
 
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-from .serializers import OrderSerializer
 
 
 # Create your views here.

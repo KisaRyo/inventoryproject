@@ -43,8 +43,6 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'bootstrap_datepicker_plus',
     'django_filters',
-    
-    'rest_framework',
 ]
 
 MIDDLEWARE = [
