@@ -15,6 +15,8 @@ from user.views import PasswordsChangeView
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
+from .serializers import OrderSerializer
 
 
 # Create your views here.
@@ -162,6 +164,8 @@ def order(request):
             return redirect('dashboard-order')
     else:
         form = OrderForm()
+
+
     context={
         'orders':orders,
         'form':form,
@@ -184,10 +188,49 @@ def order_delete(request, pk):
 @api_view(['GET'])
 def apiOverview(request):
     api_urls = {
-        'List':'/task-list/',
-        'Detail View':'/task-detail/<str:pk>/',
-        'Create':'/task-create/',
-        'Update':'/task-update/<str:pk>/',
-        'Delete':'/task-delete/<str:pk>/',
+        'List':'/order-list/',
+        'Detail View':'/order-detail/<str:pk>/',
+        'Create':'/order-create/',
+        'Update':'/order-update/<str:pk>/',
+        'Delete':'/order-delete/<str:pk>/',
     }
     return Response(api_urls)
+
+@api_view(['GET'])
+def orderList(request):
+    orders = Orders.objects.all()
+    serializer = OrderSerializer(orders, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def orderDetail(request, pk):
+    orders = Orders.objects.get(id=pk)
+    serializer = OrderSerializer(orders, many=False)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def orderCreate(request):
+    serializer = OrderSerializer(data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def orderUpdate(request, pk):
+    order = Orders.objects.get(id=pk)
+    serializer = OrderSerializer(instance=order, data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+@api_view(['DELETE'])
+def orderDelete(request, pk):
+    order = Orders.objects.get(id=pk)
+    order.delete()
+
+    return Response('Order deleted!')
+

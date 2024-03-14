@@ -13,4 +13,9 @@ urlpatterns = [
     
     #REST
     path('api/', views.apiOverview, name="api-overview"),
+    path('order-list/', views.orderList, name="order-list"),
+    path('order-detail/<str:pk>/', views.orderDetail, name="order-detail"),
+    path('order-create/', views.orderCreate, name="order-create"),
+    path('order-update/<str:pk>/', views.orderUpdate, name="order-update"),
+    path('order-delete/<str:pk>/', views.orderDelete, name="order-delete"),
 ]

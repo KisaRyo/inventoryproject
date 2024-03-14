@@ -31,7 +31,8 @@ class Product(models.Model):
     
     
 class Orders(models.Model):
-    products = models.ManyToManyField(Product)
+    products = models.CharField(max_length=100, null=True)
+    items = models.CharField(max_length=100, null=True)
     staff = models.ForeignKey(User, models.CASCADE, null=True)
     date = models.DateField(null=True)
     time = models.TimeField(null=True)

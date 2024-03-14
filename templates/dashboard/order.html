@@ -24,7 +24,6 @@
                     {% csrf_token %}
                     {{ form|crispy }}
                     <input class="btn btn-success btn-block" type="submit" value="Schedule">
-
                 </form>
             </div>
         </div>
@@ -38,6 +37,7 @@
                         <thead class="bg-info text-white">
                             <tr>
                                 <th scope="col">Staff</th>
+                                <th scope="col">Products</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Time</th>
                                 <th scope="col"> </th>
@@ -49,6 +49,7 @@
 
                             <tr>   
                                 <td>{{ orders.staff }}</td>
+                                <td>{{ orders.items }}</td>
                                 <td>{{ orders.date }}</td>
                                 <td>{{ orders.time }}</td>
                                 <td>

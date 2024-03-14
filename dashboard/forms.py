@@ -12,7 +12,7 @@ class ProductForm(forms.ModelForm):
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Orders
-        fields = ['date', 'time']
+        fields = ['items', 'date', 'time']
         widgets = {
             'date':forms.widgets.DateInput(attrs={'type':'date'}),
             'time':forms.widgets.TimeInput(attrs={'type':'time'}),
