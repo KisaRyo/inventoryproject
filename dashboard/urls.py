@@ -10,12 +10,4 @@ urlpatterns = [
     path('product/update/<int:pk>/', views.product_update, name='dashboard-product-update'),
     path('order/', views.order, name='dashboard-order'),
     path('order/delete/<int:pk>', views.order_delete, name='dashboard-order-delete'),
-    
-    #REST
-    path('api/', views.apiOverview, name="api-overview"),
-    path('order-list/', views.orderList, name="order-list"),
-    path('order-detail/<str:pk>/', views.orderDetail, name="order-detail"),
-    path('order-create/', views.orderCreate, name="order-create"),
-    path('order-update/<str:pk>/', views.orderUpdate, name="order-update"),
-    path('order-delete/<str:pk>/', views.orderDelete, name="order-delete"),
 ]
